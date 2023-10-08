@@ -15,24 +15,25 @@ export const WalkListScreen = ({navigation}: any) => {
   };
 
   return (
-    <AppBarBottomBarLayout isAppBar={true} isBottomBar={true}>
+    <AppBarBottomBarLayout isAppBar={true} isBottomBar={true} login={true}>
       <ScreenSubTitle>죽전동</ScreenSubTitle>
-      <ScreenTitle>산책 해주세요</ScreenTitle>
       <Container>
         <BoxWrap>
           <ImageWrap onPress={navigateToWalkDetailScreen}>
             <Text style={styles.imageText}>🐶</Text>
           </ImageWrap>
-          <TextWrap>
-            <Pressable onPress={navigateToWalkDetailScreen}>
+          <Pressable onPress={navigateToWalkDetailScreen}>
+            <Container style={styles.subTitleWrap}>
               <Title>
                 오늘 저녁 저희 귀여운 리트리버 산책 시켜주실분 구해요
               </Title>
-            </Pressable>
-            <SubTitle>2023-03-12 18:00 ~ 20:00</SubTitle>
-            <SubTitle>죽전동</SubTitle>
-            <SubTitle>1500원</SubTitle>
-          </TextWrap>
+            </Container>
+            <Container style={styles.subTitleWrap}>
+              <SubTitle>2023-03-12 18:00 ~ 20:00</SubTitle>
+              <SubTitle>죽전동</SubTitle>
+              <SubTitle>1500원</SubTitle>
+            </Container>
+          </Pressable>
         </BoxWrap>
       </Container>
       <FloatingButton label={'+'} onPress={navigateToWalkFormScreen} />
@@ -43,15 +44,17 @@ const styles = StyleSheet.create({
   imageText: {
     fontSize: 80,
   },
+  subTitleWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    width: '80%',
+    paddingLeft: 10,
+  },
 });
 
 const ScreenSubTitle = styled(Text)`
   font-size: 18px;
-  font-weight: 700;
-  margin: 10px 0 10px 10px;
-`;
-const ScreenTitle = styled(Text)`
-  font-size: 30px;
   font-weight: 700;
   margin: 10px 0 10px 10px;
 `;
@@ -72,13 +75,6 @@ const ImageWrap = styled(Pressable)`
   height: 100%;
   margin-left: 10px;
   background-color: #d9d9d9;
-`;
-
-const TextWrap = styled(View)`
-  display: flex;
-  justify-content: center;
-  width: 60%;
-  margin-left: 10px;
 `;
 
 const Title = styled(Text)`

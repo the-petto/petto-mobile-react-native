@@ -2,14 +2,34 @@ import React, {useState} from 'react';
 import {CenterContainer} from '../components/CenterContainer';
 import {Input} from '../components/Input';
 import {Button} from '../components/Button';
+import {sign} from '../api/auth';
+import {AppBarBottomBarLayout} from '../layout/AppBarBottomBarLayout';
 
 export const SignUpScreen = ({navigation}: any) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [nickname, setNickName] = useState('');
 
-  const navigateToWalkListScreen = () => {
-    navigation.navigate('LogInScreen');
+  const navigateToWalkListScreen = async (
+    username: string,
+    password: string,
+    nickname: string,
+  ) => {
+    let signResult = await sign({
+      username,
+      password,
+      nickname,
+    });
+    if (!signResult) {
+      return;
+    }
+    if (signResult.message === 'success') {
+      navigation.navigate('LogInScreen');
+    }
+  };
+
+  const handleNickNameChange = (text: string) => {
+    setNickName(text);
   };
 
   const handleUsernameChange = (text: string) => {
@@ -20,28 +40,29 @@ export const SignUpScreen = ({navigation}: any) => {
     setPassword(text);
   };
 
-  const handlePasswordConfirmChange = (text: string) => {
-    setPasswordConfirm(text);
-  };
-
   return (
-    <CenterContainer>
-      <Input
-        placeholder="Username"
-        value={username}
-        onChangeText={handleUsernameChange}
-      />
-      <Input
-        placeholder="Password"
-        value={password}
-        onChangeText={handlePasswordChange}
-      />
-      <Input
-        placeholder="Password confirm"
-        value={passwordConfirm}
-        onChangeText={handlePasswordConfirmChange}
-      />
-      <Button label="SignUp" onPress={navigateToWalkListScreen} />
-    </CenterContainer>
+    <AppBarBottomBarLayout isAppBar={true} isBottomBar={false} login={false}>
+      <CenterContainer>
+        <Input
+          placeholder="Username"
+          value={username}
+          onChangeText={handleUsernameChange}
+        />
+        <Input
+          placeholder="Password"
+          value={password}
+          onChangeText={handlePasswordChange}
+        />
+        <Input
+          placeholder="nickname"
+          value={nickname}
+          onChangeText={handleNickNameChange}
+        />
+        <Button
+          label="SignUp"
+          onPress={() => navigateToWalkListScreen(username, password, nickname)}
+        />
+      </CenterContainer>
+    </AppBarBottomBarLayout>
   );
 };

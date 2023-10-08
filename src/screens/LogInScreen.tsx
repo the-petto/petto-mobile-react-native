@@ -3,13 +3,29 @@ import styled from 'styled-components/native';
 import {CenterContainer} from '../components/CenterContainer';
 import {Input} from '../components/Input';
 import {Button} from '../components/Button';
+import {login} from '../api/auth';
+import {setStorage} from '../utils/storage';
 
 export const LogInScreen = ({navigation}: any) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const navigateToWalkListScreen = () => {
-    navigation.navigate('WalkListScreen');
+  const navigateToWalkListScreen = async (id: string, password: string) => {
+    let loginResult = await login({
+      id,
+      password,
+    });
+    if (!loginResult) {
+      return;
+    }
+    if (loginResult.message === 'success') {
+      const accessToken = loginResult.data.accessToken;
+      const refreshToken = loginResult.data.refreshToken;
+      setStorage('accessToken', accessToken);
+      setStorage('refreshToken', refreshToken);
+      setStorage('autoLogin', true);
+      navigation.navigate('WalkListScreen');
+    }
   };
 
   const navigateToSignUpScreen = () => {
@@ -37,7 +53,10 @@ export const LogInScreen = ({navigation}: any) => {
         value={password}
         onChangeText={handlePasswordChange}
       />
-      <Button label="Login" onPress={navigateToWalkListScreen} />
+      <Button
+        label="Login"
+        onPress={() => navigateToWalkListScreen(username, password)}
+      />
       <SignUpText onPress={navigateToSignUpScreen}>회원가입</SignUpText>
     </CenterContainer>
   );

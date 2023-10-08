@@ -6,9 +6,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 type AppBarProps = {
   title?: string;
+  login: boolean;
 };
 
-export const AppBar = ({title}: AppBarProps) => {
+export const AppBar = ({title, login}: AppBarProps) => {
   const navigation = useNavigation();
 
   return (
@@ -22,10 +23,19 @@ export const AppBar = ({title}: AppBarProps) => {
           onPress={() => navigation.goBack()}
         />
       </Start>
-      <Center>{title ?? '🐶'}</Center>
-      <End>
-        <Icon name="search" size={30} style={styles.backIcon} color="#000000" />
-      </End>
+      {login && (
+        <>
+          <Center>{title ?? '🐶'}</Center>
+          <End>
+            <Icon
+              name="search"
+              size={30}
+              style={styles.backIcon}
+              color="#000000"
+            />
+          </End>
+        </>
+      )}
     </AppBarWrap>
   );
 };

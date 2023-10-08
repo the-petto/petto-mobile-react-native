@@ -8,15 +8,17 @@ type AppBarBottomBarLayoutProps = {
   isAppBar?: boolean;
   isBottomBar?: boolean;
   children: React.ReactNode;
+  login: boolean;
 };
 export const AppBarBottomBarLayout = ({
   isAppBar,
   isBottomBar,
   children,
+  login,
 }: AppBarBottomBarLayoutProps) => {
   return (
     <LayoutWrap>
-      {isAppBar && <AppBar />}
+      {isAppBar && <AppBar login={login} />}
       <ChildrenWrap>{children}</ChildrenWrap>
       {isBottomBar && <BottomAppBar />}
     </LayoutWrap>

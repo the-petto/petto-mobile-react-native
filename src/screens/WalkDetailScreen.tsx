@@ -5,7 +5,7 @@ import {styled} from 'styled-components';
 
 export const WalkDetailScreen = () => {
   return (
-    <AppBarBottomBarLayout isAppBar={true} isBottomBar={true}>
+    <AppBarBottomBarLayout isAppBar={true} isBottomBar={true} login={true}>
       <ImageWrap>
         <Image>
           <Text>🐶</Text>
